@@ -16,7 +16,7 @@ curl http://localhost:8000/api/file/d/e4aef93c-f2f0-4c31-9bfb-0d01851fa077 -o lo
 
 
 ## Build
-### .env file
+### Create an .env file in project root directory
 ```
 S3_REGION = ""
 S3_BUCKET = ""
@@ -24,6 +24,7 @@ AWS_ACCESS_KEY = ""
 AWS_SECRET_KEY = ""
 REDIS_ADDR = "localhost:6379"
 REDIS_PW = ""
+HOSTNAME = ""
 ```
 ### cd to project root and run
 ```
