@@ -2,3 +2,4 @@
 .pnp
 .pnp.js
 node_modules
+yarn.lock
