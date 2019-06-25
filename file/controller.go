@@ -61,7 +61,13 @@ func Upload(c *gin.Context) {
 	}
 
 	// upload file to s3
-	err = S3Upload(file, header, &fileID)
+	// get file size
+	size := header.Size
+	buffer := make([]byte, size)
+	file.Read(buffer)
+
+	//err = S3Upload(file, header, &fileID)
+	err = UploadS3(buffer, &fileID, &size, http.DetectContentType(buffer))
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"result": "error", "error": "failed to upload to S3"})

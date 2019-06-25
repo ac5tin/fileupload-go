@@ -1,0 +1,10 @@
+.filedropper {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 300px;
+    text-align: center;
+}
+
+.filedropper.dragging {
+    border: 2px dashed white;
+}

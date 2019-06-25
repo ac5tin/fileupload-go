@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"fileupload/file"
+	"fileupload/ws"
 )
 
 var (
@@ -22,7 +23,7 @@ func main() {
 	flag.Parse() // parse command line into defined flags
 	router := gin.Default()
 
-	// api routes
+	// ===== API routes =====
 	router.GET("/api/ping", func(c *gin.Context) { c.String(200, "pong") })
 	/*
 	   apiroute := router.Group("/api")
@@ -30,6 +31,13 @@ func main() {
 	*/
 	fileapi := router.Group("/api/file")
 	file.Routes(fileapi)
+
+	// ===== Websocket =====
+	
+	router.GET("/ws", func(c *gin.Context) {
+		ws.Handler(c.Writer, c.Request)
+	})
+	
 
 	// serve static built js
 	router.Use(static.Serve("/", static.LocalFile("./client/build", true)))

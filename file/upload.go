@@ -2,7 +2,6 @@ package file
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -11,21 +10,15 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/joho/godotenv"
 
-	"mime/multipart"
 	"net/http"
 )
 
-// S3Upload uploads file to S3
-func S3Upload(file multipart.File, fileHeader *multipart.FileHeader, filename *string) error {
+// UploadS3 uploads file to S3
+func UploadS3(buffer []byte, filename *string, size *int64, ctype string) error {
 	err := godotenv.Load()
 	if err != nil {
 		return err
 	}
-
-	// get file size
-	size := fileHeader.Size
-	buffer := make([]byte, size)
-	file.Read(buffer)
 
 	s, err := session.NewSession(&aws.Config{Region: aws.String(os.Getenv("S3_REGION"))})
 	if err != nil {
@@ -37,14 +30,9 @@ func S3Upload(file multipart.File, fileHeader *multipart.FileHeader, filename *s
 		Key:           aws.String(*filename),
 		Body:          bytes.NewReader(buffer),
 		ACL:           aws.String("public-read"),
-		ContentLength: aws.Int64(int64(size)),
+		ContentLength: aws.Int64(*size),
 		ContentType:   aws.String(http.DetectContentType(buffer)),
 	})
-
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
 
 	return nil
 }
