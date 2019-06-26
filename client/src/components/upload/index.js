@@ -9,7 +9,7 @@ const Upload = ()=>{
 
     const onDrop = async f =>{
         await setUploading(true); //uploading file
-
+        const t = await toast('Uploading file',{ autoClose: false , type: toast.TYPE.WARNING });
         // instantiate ws connection
         const ws = new WebSocket(process.env.REACT_APP_WS_ENDPOINT);
         ws.binaryType = "arraybuffer";
@@ -37,11 +37,11 @@ const Upload = ()=>{
         ws.onmessage = msg =>{
             const { result , id } = JSON.parse(msg.data);
             if(result === "success" && id){
-                toast.success("Successfully uploaded file");
+                toast.update(t,{render:"Successfully uploaded file" ,type: toast.TYPE.SUCCESS , autoClose: 3000 });
                 f.dlink = `${process.env.REACT_APP_ADDR}/api/file/d/${id}`;
                 setFiles([...files,f]);
             }else{
-                toast.error("Failed to upload file");
+                toast.update(t,{render:"Failed to upload file" ,type: toast.TYPE.SUCCESS , autoClose: 3000 });
             }
             setUploading(false);// done
             ws.close();
