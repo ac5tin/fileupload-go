@@ -1,6 +1,6 @@
 import React from 'react';
 import Upload from '../upload';
-
+import Guide from '../guide';
 
 const Landing = ()=>(
     <React.Fragment>
@@ -11,6 +11,11 @@ const Landing = ()=>(
         <div className="section">
             <h3 className="subtitle">Simple file sharing</h3>
             <Upload />
+        </div>
+        <hr />
+        <div className="section">
+            <h3 className="subtitle">Guide</h3>
+            <Guide />
         </div>
     </React.Fragment>
     

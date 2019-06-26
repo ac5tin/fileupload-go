@@ -44,6 +44,7 @@ const Upload = ()=>{
                 toast.error("Failed to upload file");
             }
             setUploading(false);// done
+            ws.close();
         }
 
         
