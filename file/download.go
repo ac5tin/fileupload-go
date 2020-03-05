@@ -2,7 +2,6 @@ package file
 
 import (
 	"bytes"
-	"io"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -37,8 +36,8 @@ func S3Download(fileID *string, c *gin.Context) error {
 		return err
 	}
 	// write buffer to responsewriter
-	_, err = io.Copy(c.Writer, bytes.NewReader(buff.Bytes()))
-	if err != nil {
+	b := bytes.NewBuffer(buff.Bytes())
+	if _, err = b.WriteTo(c.Writer); err != nil {
 		return err
 	}
 
